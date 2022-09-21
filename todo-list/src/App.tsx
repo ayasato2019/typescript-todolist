@@ -16,6 +16,9 @@ function App() {
 		setInputValue(e.target.value);
 	}
 
+	const handleEdit = () => {
+	}
+
 	const handleSubmit = (e: { preventDefault: () => void }) => {
 		e.preventDefault();
 
@@ -41,9 +44,11 @@ return (
 		<ul className="todoList">
 			{todos.map(todo => (
 				<li key={todo.id}>
-					{todo.inputValue}
 					<input type="text"
-					onChange={(e) => handleEdit(e)} className="inputText" />
+					onChange={() => handleEdit()}
+					className="inputText"
+					value={(todo.inputValue)}
+					/>
 				</li>
 			))}
 		</ul>
