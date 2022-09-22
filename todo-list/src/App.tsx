@@ -9,15 +9,22 @@ function App() {
 		inputValue: string;
 		id: number;
 		checked: boolean;
-	}
+	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		// console.log(e.target.value);
 		setInputValue(e.target.value);
-	}
+	};
 
-	const handleEdit = () => {
-	}
+	const handleEdit = (id: number, inputValue: string) => {
+		const newTodos = todos.map((todo) => {
+			if (todo.id == id) {
+				todo.inputValue = inputValue;
+			}
+		return todo;
+	});
+		setTodos(newTodos);
+	};
 
 	const handleSubmit = (e: { preventDefault: () => void }) => {
 		e.preventDefault();
@@ -30,7 +37,22 @@ function App() {
 
 		setTodos([newTodo, ...todos]);
 		setInputValue("");
-	}
+	};
+
+	const handleChecked = (id: number, checked: boolean) => {
+		const newTodos = todos.map((todo) => {
+			if (todo.id == id) {
+				todo.checked = !checked;
+			}
+		return todo;
+	});
+		setTodos(newTodos);
+	};
+
+	const handleDelete = (id: number) => {
+		const newTodos = todos.filter((todo) => todo.id !== id);
+		setTodos(newTodos);
+	};
 
 return (
 	<div className="App">
@@ -45,10 +67,14 @@ return (
 			{todos.map(todo => (
 				<li key={todo.id}>
 					<input type="text"
-					onChange={() => handleEdit()}
+					onChange={(e) => handleEdit(todo.id, e.target.value)}
 					className="inputText"
 					value={(todo.inputValue)}
+					disabled={todo.checked}
 					/>
+					<input type="checkbox"
+					onChange={(e) => handleChecked(todo.id, todo.checked)} />
+					<button onClick={() => handleDelete(todo.id)}>消</button>
 				</li>
 			))}
 		</ul>
